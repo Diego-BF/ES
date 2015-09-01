@@ -63,7 +63,7 @@ public class Cadeado {
 
 	public static void autoDestruicao() {
 		System.out.println("SEQUENCIA DE AUTO DESTRUICAO ATIVADA!\nCONTAGEM REGRESSIVA DE 10 SEGUNDOS INICIADA");
-		Thread.sleep(10000);
+		//Thread.sleep(10000);
 		System.out.println("BOOOMMMMM!!!");
 	}
 
