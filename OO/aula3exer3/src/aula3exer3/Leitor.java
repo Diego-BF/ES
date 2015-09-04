@@ -2,6 +2,11 @@ package aula3exer3;
 
 import java.util.Scanner;
 
+/*
+ *	Síntese:
+ *		Metodo: getInt(), getString(), get Float()
+ */
+
 public class Leitor {
 	public static int getInt() {
 		Scanner ler = new Scanner(System.in);

@@ -1,5 +1,10 @@
 package aula3exer3;
 
+/*
+ *	Sintese
+ *		Metodo: validaNome(), validaIdade(), validaAltura()
+ */
+
 public class Validacao {
 	public static String validaNome() {
 		String nome;
