@@ -1,6 +1,6 @@
 public class Time {
-	String nome;
-	int titulos;
+	private String nome;
+	 private int titulos;
 	
 	
 	public Time(String nome, int titulos) {
