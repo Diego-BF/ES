@@ -2,9 +2,9 @@ package dados;
 
 public class Calendario
 {
-	Integer ano;
-	StringBuilder presidente;
-	StringBuilder eventoEspacial;
+	private Integer ano;
+	private StringBuilder presidente;
+	private StringBuilder eventoEspacial;
 	public Calendario(Integer ano, StringBuilder presidente, StringBuilder eventoEspacial)
 	{
 		this.ano = ano;

@@ -66,7 +66,7 @@ public class Visao
 				sairLoop = false;
 			}
 			//validacao
-			if(string.isEmpty())
+			if(Validador.validaString(string))
 			{
 				JOptionPane.showMessageDialog(null, "Nada foi digitado", "Entrada Invalida", 
 						JOptionPane.WARNING_MESSAGE);

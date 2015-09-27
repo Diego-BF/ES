@@ -59,7 +59,7 @@ public class Estatistica
 
 	public static void salarioSuperiorMedia(Vector habitantes, int quantidadeHabitantes, float mediaSalario)
 	{
-		int salarioSuperiorMedia = 0, totalHomens = 0, homensSal300 = 0;
+		int salarioSuperiorMedia = 0;
 		float mediaHomensAcima300 = 0f;
 		Habitante pessoa;
 		DecimalFormat mascara = new DecimalFormat("0.00");
@@ -71,26 +71,8 @@ public class Estatistica
 			{
 				salarioSuperiorMedia++;
 			}
-			if(pessoa.getSexo().equals("M"))
-			{
-				totalHomens = totalHomens+1;
-				if(pessoa.getSalario() > 300f)
-				{
-					homensSal300 = homensSal300+1;
-				}
-			}
 		}
 		
-		if(totalHomens == 0)
-		{
-			mediaHomensAcima300 = 0;
-		} else
-		{
-			mediaHomensAcima300 = homensSal300/totalHomens;
-		}
-		
-		System.out.println("a media de homens, entre os homens, que ganham mais de 300 reais e: " 
-				+mascara.format(mediaHomensAcima300));
 		System.out.println("O numero de pessoas que possuem salario acima da media e: " + salarioSuperiorMedia);
 	}
 }

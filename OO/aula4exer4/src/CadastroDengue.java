@@ -2,25 +2,35 @@ import java.text.DecimalFormat;
 
 /*
  *	Sintese
- *		Objetivo: cadastrar e exibir informacoes, em termos estatisticos, sobre pessoas participantes de uma pesquisa
- *		Entrada: maximo de participantes; nome, idade, sexo e se a pessoa ja teve dengue; opcao sobre continuar o cadastro
- *		Saida: porcentagem dos participantes que ja teve dengue, de homens que ja tiveram dengue entre os homens participantes
- *			e de criancas que ja tiveram dengue (relativo a toda a amostra); quantidade de pessoas, assim como de homens e de mulheres,
- *			participantes
+ *		Objetivo: cadastrar e exibir informacoes, em termos estatisticos, sobre pessoas participantes
+ *				de uma pesquisa
+ *		Entrada: maximo de participantes; nome, idade, sexo e se a pessoa ja teve dengue; opcao sobre
+ *				continuar o cadastro
+ *		Saida: porcentagem dos participantes que ja teve dengue, de homens que ja tiveram dengue entre 
+ *				os homens participantes	e de criancas que ja tiveram dengue (relativo a toda a 
+ *				amostra); quantidade de pessoas, assim como de homens e de mulheres, participantes
  */
 public class CadastroDengue {
+	private static int totalHom;
+	private static int totalMul;
+	private static int homJaCont;
+	private static int criJaCont;
+	private static int partJaCont;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		int tamCadastro = Validador.validaTamCadastro();
-		int ultimoCadastro = tamCadastro;
-		int totalHom = 0, totalMul = 0, homJaCont = 0, criJaCont = 0, partJaCont = 0; 
+		int ultimoCadastro = tamCadastro; 
 		Pessoa participantes[] = new Pessoa[tamCadastro];
 		boolean continuarCadastro = true;
 		
-		for(int i = 0; i < tamCadastro && continuarCadastro; ++i) {
+		for(int i = 0; i < tamCadastro && continuarCadastro; ++i) 
+		{
 			limpaConsole(30);
-			participantes[i] = new Pessoa(Validador.validaNome(), Validador.validaIdade(), Validador.validaSexo(),
-					Validador.validaJaTeveDengue());
+			participantes[i] = new Pessoa(Validador.validaNome(), Validador.validaIdade(), 
+					Validador.validaSexo(), Validador.validaJaTeveDengue());
+			extraiDados(participantes[i]);
+			
 			if(i < tamCadastro-1) {
 				limpaConsole(30);
 				continuarCadastro = Validador.validaContinuarCadastro();
@@ -28,52 +38,64 @@ public class CadastroDengue {
 					ultimoCadastro = ++i;
 				}
 			}
-			extraiDados(participantes[i], totalHom, totalMul, homJaCont, criJaCont, partJaCont);
+			
 		}
 		
-		exibeDados(totalHom, totalMul, homJaCont, criJaCont, partJaCont, ultimoCadastro);
+		exibeDados(ultimoCadastro);
 	}
 	
 	
 	// outros metodos //
 	
-	private static void limpaConsole(int linhas) {
-		for(int i = 0; i < linhas; ++i) {
+	private static void limpaConsole(int linhas) 
+	{
+		for(int i = 0; i < linhas; ++i) 
+		{
 			System.out.println();
 		}
 	}
 	
-	private static void extraiDados(Pessoa participante, int totalHom, int totalMul, int homJaCont, int criJaCont, int partJaCont) {
-		if(participante.getSexo() == 'M') {
+	private static void extraiDados(Pessoa participante) 
+	{
+		if(participante.getSexo() == 'M') 
+		{
 			totalHom = totalHom+1;
-			if(participante.getJaTeveDengue()) {
+			if(participante.getJaTeveDengue()) 
+			{
 				homJaCont = homJaCont+1;
 			}
-		} else {
+		} else 
+		{
 			totalMul = totalMul+1;
 		}
 		
-		if(participante.getJaTeveDengue()) {
+		if(participante.getJaTeveDengue()) 
+		{
 			partJaCont = partJaCont+1;
-			if(participante.getIdade() <= 12) {
+			if(participante.getIdade() <= 12) 
+			{
 				criJaCont = criJaCont+1;
 			}
 		}
 	}
 	
-	private static float porcentagem(int numerador, int denominador) {
+	private static float porcentagem(int numerador, int denominador) 
+	{
 		float porcentagem;
 		
-		if(denominador == 0) {
+		if(denominador == 0) 
+		{
 			porcentagem = 0;
-		} else {
+		} else 
+		{
 			porcentagem = (numerador/denominador)*100f;
 		}
 		
 		return porcentagem;
 	}
 	
-	private static void exibeDados(int totalHom, int totalMul, int homJaCont, int criJaCont, int partJaCont, int ultimoCadastro){
+	private static void exibeDados(int ultimoCadastro)
+	{
 		DecimalFormat mascara = new DecimalFormat("0.000");
 		
 		limpaConsole(30);

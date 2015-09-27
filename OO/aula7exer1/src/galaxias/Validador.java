@@ -16,6 +16,6 @@ public class Validador
 	
 	public static Boolean validaString(String string)
 	{
-		return !string.isEmpty();
+		return !string.trim().isEmpty();
 	}
 }
