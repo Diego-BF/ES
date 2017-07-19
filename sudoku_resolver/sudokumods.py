@@ -2,7 +2,7 @@ from cell import Cell
 
 
 def generate_sudoku():
-    """ read the values provided and generate a matrix of the sudoku """
+    """ Read the values provided and generate a matrix of the sudoku """
     sudoku = [[Cell() for i in range(9)] for j in range(9)]
     for i in range(9):
         raw_read = input()
@@ -18,10 +18,12 @@ def generate_sudoku():
 
 
 def show_sudoku(sudoku):
-    """ print the values in sudoku's cells in a formatted way """
+    """ Print the values in sudoku's cells in a formatted way """
     for i in range(9):
         for j in range(9):
-            print(sudoku[i][j].value, end="")
+            #print(sudoku[i][j].value, end="")
+            #print(sudoku[i][j].possibilities, end="")
+            print(len(sudoku[i][j].possibilities), end="")
             if j == 2 or j == 5:
                 print(" | ", end="")
             elif j < 8:
@@ -33,15 +35,15 @@ def show_sudoku(sudoku):
             print()
 
 
-def is_value_in_col_row(sudoku, col, row, value):
-    """ return true if the value is in the row or column that pass in the
+def is_value_in_row_col(sudoku, row, col, value):
+    """ Return true if the value is in the row or column that pass in the
     cell
     """
     value_found = False
 
     # search in the row
     for i in range(9):
-        if sudoku[i][col].value is value and i is not row:
+        if sudoku[i][col].value is value:
             value_found = True
             print("linha alterou")
             break
@@ -49,7 +51,7 @@ def is_value_in_col_row(sudoku, col, row, value):
     if not value_found:
         # search in the column
         for j in range(9):
-            if sudoku[row][j].value is value and j is not col:
+            if sudoku[row][j].value is value:
                 value_found = True
                 print("coluna alterou")
                 break
@@ -57,8 +59,8 @@ def is_value_in_col_row(sudoku, col, row, value):
     return value_found
 
 
-def is_value_in_sector(sudoku, corner_col, corner_row, value):
-    """ return True if the value is in the sector where the cell is, False
+def is_value_in_sector(sudoku, corner_row, corner_col, value):
+    """ Return True if the value is in the sector where the cell is, False
     otherwise
     """
 
@@ -72,8 +74,8 @@ def is_value_in_sector(sudoku, corner_col, corner_row, value):
     return value_found
 
 
-def search_value_in_sector(sudoku, col, row, value):
-    """ function that call the is_value_in_sector with the appropriate corner
+def search_value_in_sector(sudoku, row, col, value):
+    """ Function that call the is_value_in_sector with the appropriate corner
     cell and return True if the value is found
     """
     corner_col = 0
@@ -91,4 +93,30 @@ def search_value_in_sector(sudoku, col, row, value):
         corner_row = 6
 
     # call the is_value_in_sector function with the correct cordinates
-    return is_value_in_sector(sudoku, corner_col, corner_row, value)
+    return is_value_in_sector(sudoku, corner_row, corner_col, value)
+
+
+def analyze_sudoku(sudoku):
+    """ Function that analyze each cell in sudoku searching for the possible
+    values of they
+    """
+    num_list = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+    for i in range(9):
+        for j in range(9):
+            if sudoku[i][j].value is "X":
+                # print("entrou")
+                for value in num_list:
+                    value_found = False
+                    value_found = is_value_in_row_col(sudoku, i, j, value)
+
+                    # Test the sector only if the value wasn't found in col/row
+                    if not value_found:
+                        value_found = search_value_in_sector(
+                                sudoku, i, j, value)
+
+                    # If the value isn't possible, remove from the
+                    # possibilities of the cell
+                    if value_found:
+                        print("Valor encontrado")
+                        sudoku[i][j].possibilities.remove(int(value))
