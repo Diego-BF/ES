@@ -21,9 +21,9 @@ def show_sudoku(sudoku):
     """ Print the values in sudoku's cells in a formatted way """
     for i in range(9):
         for j in range(9):
-            #print(sudoku[i][j].value, end="")
+            print(sudoku[i][j].value, end="")
             #print(sudoku[i][j].possibilities, end="")
-            print(len(sudoku[i][j].possibilities), end="")
+            # print(len(sudoku[i][j].possibilities), end="")
             if j == 2 or j == 5:
                 print(" | ", end="")
             elif j < 8:
@@ -45,7 +45,6 @@ def is_value_in_row_col(sudoku, row, col, value):
     for i in range(9):
         if sudoku[i][col].value is value:
             value_found = True
-            print("linha alterou")
             break
 
     if not value_found:
@@ -53,7 +52,6 @@ def is_value_in_row_col(sudoku, row, col, value):
         for j in range(9):
             if sudoku[row][j].value is value:
                 value_found = True
-                print("coluna alterou")
                 break
 
     return value_found
@@ -100,23 +98,30 @@ def analyze_sudoku(sudoku):
     """ Function that analyze each cell in sudoku searching for the possible
     values of they
     """
-    num_list = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    sudoku_finished = False
+    
+    while not sudoku_finished:
+        sudoku_finished = True
+        for i in range(9):
+            for j in range(9):
+                if sudoku[i][j].value is "X":
+                    sudoku_finished = False
+                    if len(sudoku[i][j].possibilities) == 1:
+                        sudoku[i][j].value = sudoku[i][j].possibilities.pop()
+                    else:
+                        for value in sudoku[i][j].possibilities:
+                            value_found = False
+                            value_found = is_value_in_row_col(sudoku, i, j, value)
 
-    for i in range(9):
-        for j in range(9):
-            if sudoku[i][j].value is "X":
-                # print("entrou")
-                for value in num_list:
-                    value_found = False
-                    value_found = is_value_in_row_col(sudoku, i, j, value)
+                            # Test the sector only if the value wasn't found in col/row
+                            if not value_found:
+                                value_found = search_value_in_sector(
+                                        sudoku, i, j, value)
 
-                    # Test the sector only if the value wasn't found in col/row
-                    if not value_found:
-                        value_found = search_value_in_sector(
-                                sudoku, i, j, value)
-
-                    # If the value isn't possible, remove from the
-                    # possibilities of the cell
-                    if value_found:
-                        print("Valor encontrado")
-                        sudoku[i][j].possibilities.remove(int(value))
+                            # If the value isn't possible, remove from the
+                            # possibilities of the cell
+                            if value_found:
+                                sudoku[i][j].possibilities.remove(value)
+                else:
+                    sudoku[i][j].possibilities = []
+    
